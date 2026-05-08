@@ -306,24 +306,25 @@ class _ZoneDetectorState extends State<ZoneDetector> {
             final display = label == 'zone.detecting' ? 'Detecting location...' : label;
             return Text(display, style: TextStyle(
               fontSize: UrFontSizes.sm,
-              color: const Color(0x80E4E4F0),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
               fontStyle: FontStyle.italic,
             ));
 
           case DetectState.detected:
             final cc = widget.countryCode.value ?? '';
             final name = _zoneResource.zone?.name ?? cc;
+            final cs = Theme.of(context).colorScheme;
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(name, style: const TextStyle(
+                Text(name, style: TextStyle(
                   fontSize: UrFontSizes.sm,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFFE4E4F0),
+                  color: cs.onSurface,
                 )),
                 if (cc.isNotEmpty) ...[
                   const SizedBox(width: UrSpacing.xs),
-                  Text(cc, style: TextStyle(fontSize: UrFontSizes.sm - 2, color: Colors.grey.shade600)),
+                  Text(cc, style: TextStyle(fontSize: UrFontSizes.sm - 2, color: cs.onSurface.withValues(alpha: 0.4))),
                 ],
               ],
             );
@@ -416,13 +417,15 @@ class _ZoneAiListState extends State<ZoneAiList> {
         final z = _zoneResource.zone;
         if (z == null) return const SizedBox.shrink();
 
+        final cs = Theme.of(context).colorScheme;
+
         if (z.aiModels.isEmpty) {
           final tm = widget.translations?.value;
           final raw = tm?.get('zone.no_ai_models') ?? 'No AI models available';
           final display = raw == 'zone.no_ai_models' ? 'No AI models available' : raw;
           return Text(display, style: TextStyle(
             fontSize: UrFontSizes.sm,
-            color: const Color(0x80E4E4F0),
+            color: cs.onSurface.withValues(alpha: 0.5),
             fontStyle: FontStyle.italic,
           ));
         }
@@ -440,22 +443,22 @@ class _ZoneAiListState extends State<ZoneAiList> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: UrSpacing.sm, vertical: 1),
               decoration: BoxDecoration(
-                color: const Color(0x0EFFFFFF),
-                border: Border.all(color: const Color(0x1AE4E4F0)),
+                color: cs.onSurface.withValues(alpha: 0.05),
+                border: Border.all(color: cs.outline),
                 borderRadius: BorderRadius.circular(UrRadii.sm),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(displayName, style: const TextStyle(
+                  Text(displayName, style: TextStyle(
                     fontSize: UrFontSizes.sm,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFFE4E4F0),
+                    color: cs.onSurface,
                   )),
                   const SizedBox(width: UrSpacing.xs),
                   Text(ai.code, style: TextStyle(
                     fontSize: 11,
-                    color: Colors.grey.shade600,
+                    color: cs.onSurface.withValues(alpha: 0.4),
                     fontFamily: 'monospace',
                   )),
                 ],

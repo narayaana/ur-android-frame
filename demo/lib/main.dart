@@ -225,7 +225,7 @@ class _Toolbar extends StatelessWidget {
             valueListenable: state._locale,
             builder: (_, loc, _) => Text(loc.label, style: TextStyle(
               fontSize: UrFontSizes.sm,
-              color: const Color(0x80E4E4F0),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
             )),
           ),
 
@@ -276,9 +276,9 @@ class _Labeled extends StatelessWidget {
             if (label.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(right: UrSpacing.xs),
-                child: Text(label, style: const TextStyle(
+                child: Text(label, style: TextStyle(
                   fontSize: UrFontSizes.sm,
-                  color: Color(0x80E4E4F0),
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                 )),
               ),
             child,

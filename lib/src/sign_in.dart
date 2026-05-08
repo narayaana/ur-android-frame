@@ -37,14 +37,15 @@ class SignInLink extends StatelessWidget {
     return ValueListenableBuilder<SessionInfo?>(
       valueListenable: session,
       builder: (context, current, _) {
+        final cs = Theme.of(context).colorScheme;
         if (current != null) {
           return Text(
             current.username,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: const Color(0xFFE4E4F0),
+              color: cs.onSurface,
               decoration: TextDecoration.underline,
-              decorationColor: const Color(0x38E4E4F0),
+              decorationColor: cs.outlineVariant,
               decorationStyle: TextDecorationStyle.dotted,
               decorationThickness: 1.0,
             ),
@@ -65,7 +66,7 @@ class SignInLink extends StatelessWidget {
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: Text(display, style: TextStyle(fontSize: UrFontSizes.sm, color: const Color(0x80E4E4F0))),
+              child: Text(display, style: TextStyle(fontSize: UrFontSizes.sm, color: cs.onSurface.withValues(alpha: 0.5))),
             );
           },
         );
@@ -94,6 +95,7 @@ class SignOutLink extends StatelessWidget {
       builder: (context, current, _) {
         if (current == null) return const SizedBox.shrink();
 
+        final cs = Theme.of(context).colorScheme;
         final tm = translations?.value;
         final label = tm?.get('sign_out.link') ?? 'Sign out';
         final display = label == 'sign_out.link' ? 'Sign out' : label;
@@ -104,9 +106,9 @@ class SignOutLink extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: UrSpacing.sm, vertical: UrSpacing.xs),
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            side: const BorderSide(color: Color(0x1AE4E4F0)),
+            side: BorderSide(color: cs.outline),
           ),
-          child: Text(display, style: TextStyle(fontSize: UrFontSizes.sm, color: const Color(0x80E4E4F0))),
+          child: Text(display, style: TextStyle(fontSize: UrFontSizes.sm, color: cs.onSurface.withValues(alpha: 0.5))),
         );
       },
     );
@@ -197,6 +199,8 @@ class _SignInModalState extends State<SignInModal> {
       builder: (context, open, _) {
         if (!open) return const SizedBox.shrink();
 
+        final cs = Theme.of(context).colorScheme;
+
         return Stack(
           children: [
             // Backdrop
@@ -215,7 +219,7 @@ class _SignInModalState extends State<SignInModal> {
               right: UrSpacing.md,
               width: 340,
               child: Material(
-                color: const Color(0xFF13131F),
+                color: cs.surface,
                 borderRadius: BorderRadius.circular(UrRadii.lg),
                 elevation: 8,
                 child: Padding(
@@ -228,10 +232,10 @@ class _SignInModalState extends State<SignInModal> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Sign in',
-                              style: TextStyle(fontSize: UrFontSizes.lg, fontWeight: FontWeight.w700, color: Color(0xFFE4E4F0))),
+                          Text('Sign in',
+                              style: TextStyle(fontSize: UrFontSizes.lg, fontWeight: FontWeight.w700, color: cs.onSurface)),
                           IconButton(
-                            icon: const Icon(Icons.close, size: 18),
+                            icon: Icon(Icons.close, size: 18, color: cs.onSurface),
                             splashRadius: 14,
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
@@ -248,7 +252,7 @@ class _SignInModalState extends State<SignInModal> {
                         controller: _usernameCtrl,
                         enabled: !_submitting,
                         decoration: const InputDecoration(labelText: 'Username'),
-                        style: const TextStyle(color: Color(0xFFE4E4F0)),
+                        style: TextStyle(color: cs.onSurface),
                       ),
                       const SizedBox(height: UrSpacing.sm),
                       // Password
@@ -264,12 +268,12 @@ class _SignInModalState extends State<SignInModal> {
                             onPressed: () => setState(() => _obscure = !_obscure),
                           ),
                         ),
-                        style: const TextStyle(color: Color(0xFFE4E4F0)),
+                        style: TextStyle(color: cs.onSurface),
                         onSubmitted: (_) => _submit(),
                       ),
                       if (_error != null) ...[
                         const SizedBox(height: UrSpacing.sm),
-                        Text(_error!, style: const TextStyle(color: Color(0xFFFF5050), fontSize: UrFontSizes.sm)),
+                        Text(_error!, style: TextStyle(color: cs.error, fontSize: UrFontSizes.sm)),
                       ],
                       const SizedBox(height: UrSpacing.md),
                       // Submit
@@ -278,9 +282,9 @@ class _SignInModalState extends State<SignInModal> {
                         child: ElevatedButton(
                           onPressed: _submitting ? null : _submit,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0x403C8CDC),
-                            foregroundColor: const Color(0xFFE4E4F0),
-                            side: const BorderSide(color: Color(0x7364AAFF)),
+                            backgroundColor: cs.primary.withValues(alpha: 0.25),
+                            foregroundColor: cs.onSurface,
+                            side: BorderSide(color: cs.primary.withValues(alpha: 0.45)),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(UrRadii.sm + 1)),
                           ),
                           child: Text(_submitting ? 'Signing in...' : 'Sign in'),

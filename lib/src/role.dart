@@ -43,6 +43,7 @@ class RoleBadgeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tm = translations?.value;
+    final cs = Theme.of(context).colorScheme;
     return Wrap(
       spacing: UrSpacing.xs,
       runSpacing: 2,
@@ -54,13 +55,13 @@ class RoleBadgeList extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: UrSpacing.xs + 3, vertical: 1),
           decoration: BoxDecoration(
-            color: const Color(0x0EFFFFFF),
-            border: Border.all(color: const Color(0x1AE4E4F0)),
+            color: cs.onSurface.withValues(alpha: 0.05),
+            border: Border.all(color: cs.outline),
             borderRadius: BorderRadius.circular(UrRadii.sm),
           ),
           child: Text(
             label,
-            style: const TextStyle(fontSize: UrFontSizes.sm - 2, color: Color(0x80E4E4F0)),
+            style: TextStyle(fontSize: UrFontSizes.sm - 2, color: cs.onSurface.withValues(alpha: 0.5)),
           ),
         );
       }).toList(),
