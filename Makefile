@@ -28,7 +28,7 @@ export ANDROID_SDK_ROOT = $(ANDROID_HOME)
         install-prerequisites setup-android setup-all \
         build build-demo \
         test test-lib test-demo \
-        dev dev-android \
+        dev dev-android dev-backend \
         create-avd avd-start \
         check clean
 
@@ -103,6 +103,9 @@ dev: ## Run demo app on Android emulator
 	cd $(DEMO_DIR) && $(FLUTTER) run
 
 dev-android: dev ## Alias for dev
+
+dev-backend: ## Start the shared ur-backend demo server
+	cd ../ur-backend && $(MAKE) dev-backend
 
 # ── Emulator ─────────────────────────────────────────────────────────────────
 
