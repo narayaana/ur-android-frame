@@ -26,3 +26,6 @@ export 'src/zone.dart';
 
 // Tokens
 export 'src/tokens.dart';
+
+// User Preferences
+export 'src/user_preferences.dart';

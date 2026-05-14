@@ -144,7 +144,16 @@ class _Home extends StatelessWidget {
         child: Stack(
           children: [
             _Toolbar(scheme: scheme, state: state),
-            SignInModal(open: state._signinOpen, session: state._session),
+            ListenableBuilder(
+              listenable: state._translationStore,
+              builder: (context, _) => SignInModal(
+                open: state._signinOpen,
+                session: state._session,
+                translations: ValueNotifier(state._translationStore.map),
+                locale: state._localeBcp47,
+                availableLocales: state._availableLocales,
+              ),
+            ),
           ],
         ),
       ),
@@ -168,20 +177,22 @@ class _Toolbar extends StatelessWidget {
         runSpacing: UrSpacing.sm,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          SignInLink(
-            session: state._session,
-            canSignIn: state._canSignIn,
-            modalOpen: state._signinOpen,
-            translations: state._translationStore.map != null
-                ? ValueNotifier(state._translationStore.map)
-                : null,
+          ListenableBuilder(
+            listenable: state._translationStore,
+            builder: (context, _) => SignInLink(
+              session: state._session,
+              canSignIn: state._canSignIn,
+              modalOpen: state._signinOpen,
+              translations: ValueNotifier(state._translationStore.map),
+            ),
           ),
-          SignOutLink(
-            session: state._session,
-            roleRefresh: state._roleRefresh,
-            translations: state._translationStore.map != null
-                ? ValueNotifier(state._translationStore.map)
-                : null,
+          ListenableBuilder(
+            listenable: state._translationStore,
+            builder: (context, _) => SignOutLink(
+              session: state._session,
+              roleRefresh: state._roleRefresh,
+              translations: ValueNotifier(state._translationStore.map),
+            ),
           ),
 
           ZoneDetector(
